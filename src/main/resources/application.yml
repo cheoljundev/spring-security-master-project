@@ -1,3 +1,26 @@
 spring:
-  thymeleaf:
-    cache: false
+  datasource:
+    url: jdbc:h2:tcp://localhost/~/securityproject
+    username: sa
+    password:
+    driver-class-name: org.h2.Driver
+
+  jpa:
+    hibernate:
+      # 데이터베이스 스키마를 애플리케이션의 엔티티 클래스에 따라 자동으로 생성
+      # 가능한 값: create, update, validate, none
+      # create: 애플리케이션 시작 시 데이터베이스 스키마를 삭제하고 새로 생성
+      ddl-auto: create
+    properties:
+      hibernate:
+        # Hibernate가 실행하는 SQL 쿼리를 콘솔에 출력
+        show_sql: true
+        # 출력된 SQL 쿼리를 보기 쉽게 포맷팅
+        format_sql: true
+        default_batch_fetch_size: 100
+    open-in-view: false # osiv
+
+logging:
+  level:
+    org.hibernate.sql: debug
+    org.hibernate.type: trace
