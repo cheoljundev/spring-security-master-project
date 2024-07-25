@@ -2,6 +2,7 @@ package io.security.springsecuritymaster.security.config;
 
 import io.security.springsecuritymaster.security.filter.RestAuthenticationFilter;
 import io.security.springsecuritymaster.security.handler.FromAccessDeniedHandler;
+import io.security.springsecuritymaster.security.provider.RestAuthenticationProvider;
 import io.security.springsecuritymaster.security.token.RestAuthenticationToken;
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -34,6 +35,7 @@ public class SecurityConfig {
 
 //    private final UserDetailsService userDetailsService;
     private final AuthenticationProvider authenticationProvider;
+    private final RestAuthenticationProvider restAuthenticationProvider;
     private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthenticationFailureHandler authenticationFailureHandler;
     private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
@@ -67,6 +69,7 @@ public class SecurityConfig {
     public SecurityFilterChain restSecurityFilterChain(HttpSecurity http) throws Exception {
 
         AuthenticationManagerBuilder authenticationManagerBuilder = http.getSharedObject(AuthenticationManagerBuilder.class);
+        authenticationManagerBuilder.authenticationProvider(restAuthenticationProvider);
         AuthenticationManager authenticationManager = authenticationManagerBuilder .build();
 
         http
