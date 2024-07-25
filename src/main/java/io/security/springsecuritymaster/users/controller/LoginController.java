@@ -21,6 +21,10 @@ public class LoginController {
         model.addAttribute("exception",exception);
         return "login/login";
     }
+    @GetMapping(value="/api/login")
+    public String restogin(){
+        return "rest/login";
+    }
 
     @GetMapping("/signup")
     public String signup() {
