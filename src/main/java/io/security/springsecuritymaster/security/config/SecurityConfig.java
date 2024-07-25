@@ -15,6 +15,7 @@ import org.springframework.security.crypto.factory.PasswordEncoderFactories;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.security.provisioning.InMemoryUserDetailsManager;
 import org.springframework.security.web.SecurityFilterChain;
+import org.springframework.security.web.authentication.AuthenticationSuccessHandler;
 import org.springframework.security.web.authentication.WebAuthenticationDetails;
 
 @EnableWebSecurity
@@ -24,6 +25,7 @@ public class SecurityConfig {
 
 //    private final UserDetailsService userDetailsService;
     private final AuthenticationProvider authenticationProvider;
+    private final AuthenticationSuccessHandler authenticationSuccessHandler;
     private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
 
     @Bean
@@ -38,6 +40,7 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .authenticationDetailsSource(authenticationDetailsSource)
+                        .successHandler(authenticationSuccessHandler)
                 )
 //                .userDetailsService(userDetailsService)
                 .authenticationProvider(authenticationProvider)
