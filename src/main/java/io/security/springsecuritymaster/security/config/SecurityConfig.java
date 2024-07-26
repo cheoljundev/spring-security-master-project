@@ -1,7 +1,11 @@
 package io.security.springsecuritymaster.security.config;
 
 import io.security.springsecuritymaster.security.filter.RestAuthenticationFilter;
+import io.security.springsecuritymaster.security.handler.FormAuthenticationSuccessHandler;
+import io.security.springsecuritymaster.security.handler.FromAuthenticationFailureHandler;
 import io.security.springsecuritymaster.security.handler.FromAccessDeniedHandler;
+import io.security.springsecuritymaster.security.handler.RestAuthenticationFailureHandler;
+import io.security.springsecuritymaster.security.handler.RestAuthenticationSuccessHandler;
 import io.security.springsecuritymaster.security.provider.RestAuthenticationProvider;
 import io.security.springsecuritymaster.security.token.RestAuthenticationToken;
 import jakarta.servlet.http.HttpServletRequest;
@@ -36,8 +40,10 @@ public class SecurityConfig {
 //    private final UserDetailsService userDetailsService;
     private final AuthenticationProvider authenticationProvider;
     private final RestAuthenticationProvider restAuthenticationProvider;
-    private final AuthenticationSuccessHandler authenticationSuccessHandler;
-    private final AuthenticationFailureHandler authenticationFailureHandler;
+    private final FormAuthenticationSuccessHandler formAuthenticationSuccessHandler;
+    private final FromAuthenticationFailureHandler fromAuthenticationFailureHandler;
+    private final RestAuthenticationSuccessHandler restAuthenticationSuccessHandler;
+    private final RestAuthenticationFailureHandler restAuthenticationFailureHandler;
     private final AuthenticationDetailsSource<HttpServletRequest, WebAuthenticationDetails> authenticationDetailsSource;
 
     @Bean
@@ -54,8 +60,8 @@ public class SecurityConfig {
                 .formLogin(form -> form
                         .loginPage("/login").permitAll()
                         .authenticationDetailsSource(authenticationDetailsSource)
-                        .successHandler(authenticationSuccessHandler)
-                        .failureHandler(authenticationFailureHandler)
+                        .successHandler(formAuthenticationSuccessHandler)
+                        .failureHandler(fromAuthenticationFailureHandler)
                 )
 //                .userDetailsService(userDetailsService)
                 .authenticationProvider(authenticationProvider)
@@ -89,6 +95,8 @@ public class SecurityConfig {
     private RestAuthenticationFilter restAuthenticationFilter(AuthenticationManager authenticationManager) {
         RestAuthenticationFilter restAuthenticationFilter = new RestAuthenticationFilter();
         restAuthenticationFilter.setAuthenticationManager(authenticationManager);
+        restAuthenticationFilter.setAuthenticationSuccessHandler(restAuthenticationSuccessHandler);
+        restAuthenticationFilter.setAuthenticationFailureHandler(restAuthenticationFailureHandler);
         return restAuthenticationFilter;
     }
 
