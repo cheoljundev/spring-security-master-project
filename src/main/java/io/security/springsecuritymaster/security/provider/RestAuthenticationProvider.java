@@ -32,7 +32,7 @@ public class RestAuthenticationProvider implements AuthenticationProvider {
         }
 
 
-        return new RestAuthenticationToken(authentication.getAuthorities(), accountContext.getAccountDto(), null);
+        return new RestAuthenticationToken(accountContext.getAuthorities(), accountContext.getAccountDto(), null);
     }
 
     @Override
